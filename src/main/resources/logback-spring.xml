@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <property name="log.path" value="logs/elementary"/>
+
+    <!--输出到控制台-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 记录所有日志到文件 $log-all.log -->
+    <appender name="file-all" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--同时按照日志和大小分隔-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/log-all.%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
+            <!-- 每个文件最大100MB, 保留30天历史, 最大20GB -->
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 记录错误日志到文件 $log-error.log -->
+    <appender name="file-error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <!--同时按照日志和大小分隔-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/log-error.%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
+            <!-- 每个文件最大100MB, 保留30天历史, 最大5GB -->
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>5GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <root level="info">
+        <appender-ref ref="console"/>
+        <appender-ref ref="file-all"/>
+        <appender-ref ref="file-error"/>
+    </root>
+
+
+    <logger name="com.ibatis" level="DEBUG"/>
+    <logger name="com.ibatis.common.jdbc.SimpleDataSource" level="DEBUG"/>
+    <logger name="com.ibatis.common.jdbc.ScriptRunner" level="DEBUG"/>
+    <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG"/>
+    <logger name="java.sql.Connection" level="DEBUG"/>
+    <logger name="java.sql.Statement" level="DEBUG"/>
+    <logger name="java.sql.PreparedStatement" level="DEBUG"/>
+
+</configuration>
