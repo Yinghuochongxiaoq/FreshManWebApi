@@ -1,5 +1,8 @@
 package com.freshman.webapi.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -46,6 +49,8 @@ public class User implements Serializable {
         this.sex = sex == null ? null : sex.trim();
     }
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date getBirthday() {
         return birthday;
     }
