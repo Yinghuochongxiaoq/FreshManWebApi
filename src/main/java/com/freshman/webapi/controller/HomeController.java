@@ -1,6 +1,8 @@
 package com.freshman.webapi.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.freshman.webapi.filters.CurrentUser;
+import com.freshman.webapi.filters.IgnoreSecurity;
 import com.freshman.webapi.model.BaseResponse;
 import com.freshman.webapi.model.ResponseCode;
 import com.freshman.webapi.pojo.User;
@@ -24,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Api(value = "首页控制器", tags = {"HomeController"})
-@Controller
+@RestController
 public class HomeController extends BaseController {
     @Autowired
     private UserService userService;
@@ -37,7 +39,6 @@ public class HomeController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
     public String home() {
         return "Hello World!";
     }
@@ -53,8 +54,8 @@ public class HomeController extends BaseController {
             @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", paramType = "query"),
     })
+    @IgnoreSecurity
     @RequestMapping(value = "checkUserPwd", method = {RequestMethod.POST, RequestMethod.GET})
-    @ResponseBody
     public BaseResponse checkUserPwd(HttpServletRequest request) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -90,5 +91,16 @@ public class HomeController extends BaseController {
         baseResponse.setMessage("登录成功");
         baseResponse.setData(jsonObject);
         return baseResponse;
+    }
+
+    /**
+     * 登出
+     * @param userInfo
+     * @return
+     */
+    @ApiOperation(value = "用户登出", notes = "用户登出")
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
+    public BaseResponse logout(@CurrentUser String userInfo) {
+        return new BaseResponse(ResponseCode.SUCCESS, userInfo);
     }
 }
