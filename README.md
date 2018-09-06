@@ -40,7 +40,7 @@ spring.redis.pool.min-idle=0
 spring.redis.pool.max-active=20
 spring.redis.pool.max-wait=1000
 ```
-* 3、内置了swagger-ui插件，访问地址http://localhost:8100/swagger-ui.html，可查看效果其中的地址是可以自己修改的，访问效果如下：
+* 3、内置了swagger-ui插件，访问地址http://localhost:8100/swagger-ui.html ，可查看效果其中的地址是可以自己修改的，访问效果如下：
 ![swagger]
 
-[swagger]:https://github.com/Yinghuochongxiaoq/FreshManWebApi/tree/master/src/main/resources/static/swagger.jpg
+[swagger]:https://github.com/Yinghuochongxiaoq/FreshManWebApi/blob/master/src/main/resources/static/swagger.jpg?raw=true
