@@ -26,7 +26,7 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'FreshMan', 'e10adc3949ba59abbe56e057f20f883e', '1', '1991-06-07 18:55:19');
+INSERT INTO `user` VALUES ('1', 'FreshMan', 'e10adc3949ba59abbe56e057f20f883e', '1', '1995-02-07 17:55:19');
 ```
 * 2、redis连接信息配置
 ```redis连接信息配置
