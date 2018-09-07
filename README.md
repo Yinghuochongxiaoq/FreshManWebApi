@@ -69,4 +69,40 @@ spring.redis.pool.max-wait=1000
 ```
 表示着从数据库，redis中读取数据，写入数据成功。
 
+* 5、AuthInterceptor用户验证拦截器，可以自定义，框架中验证的是在请求头中添加参数：ACCESS_TOKEN
+```java
+//TODO：验证用户登录，或者你需要的信息
+String token = request.getHeader("ACCESS_TOKEN");
+logger.debug("token: " + token);
+if (StringUtils.isEmpty(token)) {
+    filterError(request, response, new BaseResponse(ResponseCode.HTTPMESSAGENOTWRITABLEEXCEPTION, "request header key ACCESS_TOKEN is empty"));
+    return false;
+}
+//TODO:可以结合数据库处理数据
+User user = userService.getUserId(1);
+//TODO: 这儿的currentUse和CurrentUserMethodArgumentResolver.resolveArgument 方法中的currentUser需要一致
+request.setAttribute("currentUser", user.getName());
+return true;
+```
+IgnoreSecurity为忽略用户验证注解，用在方法上，例如：
+```java
+@IgnoreSecurity
+@RequestMapping(value = "checkUserPwd", method = {RequestMethod.POST, RequestMethod.GET})
+public BaseResponse checkUserPwd(HttpServletRequest request) {
+    ……
+}
+```
+CurrentUserMethodArgumentResolver为参数解析器，能够自动注入解析完成的参数，也可以自己修改对应需要的解析器。使用方法为在方法的参数中添加注解。
+```java
+/**
+ * 登出
+ * @param userInfo
+ * @return
+ */
+@ApiOperation(value = "用户登出", notes = "用户登出")
+@RequestMapping(value = "logout", method = RequestMethod.GET)
+public BaseResponse logout(@CurrentUser String userInfo) {
+    return new BaseResponse(ResponseCode.SUCCESS, userInfo);
+}
+```
 [swagger]:https://github.com/Yinghuochongxiaoq/FreshManWebApi/blob/master/src/main/resources/static/swagger.jpg?raw=true
