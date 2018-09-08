@@ -105,4 +105,6 @@ public BaseResponse logout(@CurrentUser String userInfo) {
     return new BaseResponse(ResponseCode.SUCCESS, userInfo);
 }
 ```
+* 6、添加方法的AOP拦截ServiceLogAspect，可以用于日志的记录，分析，参数的处理，异常的记录。
+
 [swagger]:https://github.com/Yinghuochongxiaoq/FreshManWebApi/blob/master/src/main/resources/static/swagger.jpg?raw=true

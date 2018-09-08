@@ -26,9 +26,9 @@ CREATE TABLE `user` (
   `Sex` varchar(255) DEFAULT NULL,
   `Birthday` datetime DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'FreshMan', 'e10adc3949ba59abbe56e057f20f883e', '1', '1995-02-07 17:55:19');
+INSERT INTO `user`(Name,Password,Sex,Birthday) VALUES ('FreshMan', 'e10adc3949ba59abbe56e057f20f883e', '1', '1995-02-07 17:55:19');

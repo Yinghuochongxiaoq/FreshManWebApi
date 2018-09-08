@@ -35,7 +35,7 @@ public class HomeController extends BaseController {
     private RedisService redisService;
 
     /***
-     * 绝对地址
+     * 测试地址
      * @return
      */
     @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.POST})
@@ -56,9 +56,7 @@ public class HomeController extends BaseController {
     })
     @IgnoreSecurity
     @RequestMapping(value = "checkUserPwd", method = {RequestMethod.POST, RequestMethod.GET})
-    public BaseResponse checkUserPwd(HttpServletRequest request) {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+    public BaseResponse checkUserPwd(HttpServletRequest request, String username, String password) {
         BaseResponse baseResponse = new BaseResponse();
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
             baseResponse.setCode(ResponseCode.FAIL);
@@ -95,6 +93,7 @@ public class HomeController extends BaseController {
 
     /**
      * 登出
+     *
      * @param userInfo
      * @return
      */
