@@ -106,5 +106,11 @@ public BaseResponse logout(@CurrentUser String userInfo) {
 }
 ```
 * 6、添加方法的AOP拦截ServiceLogAspect，可以用于日志的记录，分析，参数的处理，异常的记录。
+* 7、添加文件的上传功能，通过http://localhost:8100/upload 方法上传大小小于10M的文件，在配置文件中修改文件大小的限制
+```xml
+spring.http.multipart.max-file-size=10Mb
+spring.http.multipart.max-request-size=100Mb
+xcloud.uploadpath=D:\\uploadfile\\
+```
 
 [swagger]:https://github.com/Yinghuochongxiaoq/FreshManWebApi/blob/master/src/main/resources/static/swagger.jpg?raw=true
