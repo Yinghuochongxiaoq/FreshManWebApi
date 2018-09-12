@@ -2,8 +2,9 @@ package com.freshman.webapi.security;
 
 import com.freshman.webapi.util.md5.MD5Util;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 
-public class SunPasswordEncoder{
+public class SunPasswordEncoder implements PasswordEncoder {
 
 	//@实现加密的方法，既将明文转换为密文的方法
 	 public String encodePassword(String rawPass, Object salt)

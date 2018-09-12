@@ -50,6 +50,15 @@ public class HomeController extends BaseController {
         return "Hello World!";
     }
 
+    /***
+     * 测试地址
+     * @return
+     */
+    @RequestMapping(value = "/index", method = {RequestMethod.GET})
+    public String index() {
+        return "index page!";
+    }
+
     /**
      * 验证登录
      *

@@ -51,12 +51,14 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         if (method.isAnnotationPresent(IgnoreSecurity.class)) {
             return true;
         }
-        //TODO：验证用户登录，或者你需要的信息
-        String token = request.getHeader("ACCESS_TOKEN");
-        logger.debug("token: " + token);
-        if (StringUtils.isEmpty(token)) {
-            filterError(request, response, new BaseResponse(ResponseCode.HTTPMESSAGENOTWRITABLEEXCEPTION, "request header key ACCESS_TOKEN is empty"));
-            return false;
+        //TODO：验证用户登录，或者你需要的信息，比如这里验证logout需要请求头信息
+        if(requestPath.contains("/logout")){
+            String token = request.getHeader("ACCESS_TOKEN");
+            logger.debug("token: " + token);
+            if (StringUtils.isEmpty(token)) {
+                filterError(request, response, new BaseResponse(ResponseCode.HTTPMESSAGENOTWRITABLEEXCEPTION, "request header key ACCESS_TOKEN is empty"));
+                return false;
+            }
         }
         //TODO:可以结合数据库处理数据
         User user = userService.getUserId(1);

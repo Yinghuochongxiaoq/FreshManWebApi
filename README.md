@@ -112,5 +112,37 @@ spring.http.multipart.max-file-size=10Mb
 spring.http.multipart.max-request-size=100Mb
 xcloud.uploadpath=D:\\uploadfile\\
 ```
+* 8、加入了Security权限模块，如果不需要，你只需要在SecurityConfig中的configure方法修改为：
+```java
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests().anyRequest().permitAll();
+    http.addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class);
+}   
+```
+即可。如果你需要，那么就去掉源码中的注释部分，并删掉http.authorizeRequests().anyRequest().permitAll();该行，在权限列表中，你可以进行数据库的查询，在demo中是使用的默认数据项：
+```java
+/**
+ * 加载权限表中所有权限
+ */
+public void loadResourceDefine() {
+    map = new HashMap<>();
+    Collection<ConfigAttribute> array;
+    ConfigAttribute cfg;
+    List<String> urls = new ArrayList<>();
+    urls.add("/upload");
+    urls.add("/downLoadFile");
+    for (String url : urls) {
+        array = new ArrayList<>();
+        cfg = new SecurityConfig("ROLE_FreshMan");
+        //此处只添加了用户的名字，其实还可以添加更多权限的信息，例如请求方法到ConfigAttribute的集合中去。此处添加的信息将会作为MyAccessDecisionManager类的decide的第三个参数。
+        array.add(cfg);
+        //用权限的getUrl() 作为map的key，用ConfigAttribute的集合作为 value，
+        map.put(url, array);
+    }
+
+}
+```
+你需要修改为你数据库中的对应url的权限集合。
 
 [swagger]:https://github.com/Yinghuochongxiaoq/FreshManWebApi/blob/master/src/main/resources/static/swagger.jpg?raw=true
