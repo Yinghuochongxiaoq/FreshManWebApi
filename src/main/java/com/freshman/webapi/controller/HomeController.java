@@ -45,6 +45,7 @@ public class HomeController extends BaseController {
      * 测试地址
      * @return
      */
+    @ApiOperation(value = "home页面", notes = "home页面")
     @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.POST})
     public String home() {
         return "Hello World!";
@@ -54,6 +55,7 @@ public class HomeController extends BaseController {
      * 测试地址
      * @return
      */
+    @ApiOperation(value = "index页面", notes = "index页面")
     @RequestMapping(value = "/index", method = {RequestMethod.GET})
     public String index() {
         return "index page!";
