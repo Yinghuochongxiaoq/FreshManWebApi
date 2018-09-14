@@ -11,6 +11,7 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
 import java.util.LinkedHashMap;
@@ -55,6 +56,10 @@ public class ShiroConfiguration {
         return filterRegistration;
     }
 
+    /**
+     * Shiro生命周期处理器
+     * @return
+     */
     @Bean(name = "lifecycleBeanPostProcessor")
     public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
@@ -99,7 +104,7 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put(patternUrl + "/user/delete**", "authc,perms[user:delete");
         filterChainDefinitionMap.put(patternUrl + "/sLogin", "anon");
         filterChainDefinitionMap.put(patternUrl + "/sLoginAjax", "anon");
-        filterChainDefinitionMap.put(patternUrl + "/**", "anon");
+        filterChainDefinitionMap.put(patternUrl + "/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
     }

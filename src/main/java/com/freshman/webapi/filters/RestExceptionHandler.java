@@ -2,6 +2,10 @@ package com.freshman.webapi.filters;
 
 import com.freshman.webapi.model.BaseResponse;
 import com.freshman.webapi.model.ResponseCode;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -33,6 +38,9 @@ import java.io.IOException;
  */
 @ControllerAdvice
 public class RestExceptionHandler {
+
+    private Logger logger = LoggerFactory.getLogger(RestExceptionHandler.class);
+
     /**
      * 运行时异常
      */
@@ -172,5 +180,20 @@ public class RestExceptionHandler {
     @ResponseBody
     public BaseResponse server500(RuntimeException runtimeException) {
         return new BaseResponse(ResponseCode.CONVERSIONNOTSUPPORTEDEXCEPTION, runtimeException.getMessage());
+    }
+
+    /**
+     * 没有权限
+     *
+     * @param e
+     * @return
+     */
+    @ExceptionHandler({UnauthorizedException.class, AuthorizationException.class})
+    @ResponseBody
+    public BaseResponse handleAuthorizationException(Exception e) {
+        logger.error(e.getMessage());
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse.setCode(ResponseCode.NoPermission);
+        return baseResponse;
     }
 }

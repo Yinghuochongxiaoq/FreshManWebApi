@@ -12,9 +12,10 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RestController
 @RequestMapping(value = "/shiro")
 public class ShiroController extends BaseController {
-    private static final Logger logger = LoggerFactory.getLogger(ShiroController.class);
 
     @Autowired
     private UserService userService;
@@ -136,7 +136,6 @@ public class ShiroController extends BaseController {
     @ApiOperation(value = "无权限提示", notes = "无权限提示")
     @RequestMapping("/403")
     public String unauthorizedRole() {
-        System.out.println("------没有权限-------");
         return "403 没有权限";
     }
 
@@ -165,7 +164,6 @@ public class ShiroController extends BaseController {
     @ApiOperation(value = "编辑用户信息", notes = "编辑用户信息")
     @RequestMapping("/user/edit/{userid}")
     public String editUser(@PathVariable int userid) {
-        System.out.println("------进入用户信息修改-------");
         return "user_edit 进入用户信息修改";
     }
 
@@ -179,7 +177,22 @@ public class ShiroController extends BaseController {
     @ApiImplicitParams({@ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "int", paramType = "query")})
     @RequestMapping("/user/delete")
     public String deleteUser(int userId) {
-        System.out.println("------进入删除用户-------");
         return "deleteUser " + userId + "进入删除用户";
+    }
+
+    /**
+     * 测试权限注解的方式
+     *
+     * @return
+     */
+    @ApiOperation(value = "删除用户信息", notes = "删除用户信息")
+    @RequiresPermissions(value = {"user:edit"})
+    @RequiresRoles(value = {"admin", "manager"}, logical = Logical.OR)
+    @RequestMapping(value = "/rolePermission")
+    public BaseResponse rolePermission() {
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse.setCode(ResponseCode.SUCCESS);
+        baseResponse.setMessage("注解使用权限配置");
+        return baseResponse;
     }
 }

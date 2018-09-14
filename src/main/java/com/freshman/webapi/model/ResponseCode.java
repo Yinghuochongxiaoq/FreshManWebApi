@@ -76,6 +76,11 @@ public class ResponseCode {
     public static final String TYPEMISMATCHEXCEPTION = "400";
 
     /**
+     * 403 沒有足够的权限
+     */
+    public static final String NoPermission="403";
+
+    /**
      * 406错误
      */
     public static final String HTTPMEDIATYPENOTACCEPTABLEEXCEPTION = "406";
@@ -112,5 +117,6 @@ public class ResponseCode {
         error.put(HTTPMESSAGENOTWRITABLEEXCEPTION, "系统未知异常");
         error.put(LOGINFOERROR, "登录信息有误");
         error.put(FAIL, "系统错误");
+        error.put(NoPermission,"没有权限");
     }
 }
