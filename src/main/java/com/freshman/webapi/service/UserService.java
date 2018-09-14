@@ -2,6 +2,7 @@ package com.freshman.webapi.service;
 
 import com.freshman.webapi.dao.UserMapper;
 import com.freshman.webapi.pojo.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,12 +17,36 @@ import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
+
+    /**
+     * 根据用户名密码查询用户信息
+     * @param userName
+     * @param passWord
+     * @return
+     */
     public User getUser(String userName, String passWord) {
         return userMapper.loginCheck(userName, passWord);
     }
 
+    /**
+     * 根据用户id获取用户信息
+     * @param id
+     * @return
+     */
     public User getUserId(int id) {
         return userMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 根据用户名称获取用户信息
+     * @param name
+     * @return
+     */
+    public User getUserByName(String name){
+        if(StringUtils.isBlank(name)){
+            return null;
+        }
+        return userMapper.selectByName(name);
     }
 
     @Autowired
@@ -36,7 +61,7 @@ public class UserService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userMapper.selectByName(username);
+        User user = getUserByName(username);
         if (user == null) {
             throw new UsernameNotFoundException(username + " not found.");
         }
