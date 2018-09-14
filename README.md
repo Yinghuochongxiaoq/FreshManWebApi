@@ -225,9 +225,12 @@ protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authent
     return new SimpleAuthenticationInfo(user.getName(), user.getPassword(), getName());
 }
 ```
-访问：http://localhost:8100/shiro/sLoginAjax?username=FreshMan&password=123456 进行登录；
-访问：http://localhost:8100/shiro/user?id=1 获取用户的信息；
-访问：http://localhost:8100/shiro/sLogout 进行退出登录；
-访问：http://localhost:8100/shiro/user/delete 由于没有配置删除权限，将会弹出到403页面
+  *访问：http://localhost:8100/shiro/sLoginAjax?username=FreshMan&password=123456 进行登录；
+  
+  *访问：http://localhost:8100/shiro/user?id=1 获取用户的信息；
+  
+  *访问：http://localhost:8100/shiro/sLogout 进行退出登录；
+  
+  *访问：http://localhost:8100/shiro/user/delete 由于没有配置删除权限，将会弹出到403页面
 
 [swagger]:https://github.com/Yinghuochongxiaoq/FreshManWebApi/blob/master/src/main/resources/static/swagger.jpg?raw=true
